@@ -6,11 +6,14 @@ defmodule FakeQiita.PageController do
       select_user(user_id)
     end)
 
-    unless user do
-      json conn, %{error: "not found"}
+    case user do
+      {:ok, value} ->
+        render conn, "index.html", user: value
+      {:not_found, []} ->
+        render conn, "404.html"
+      {:server_error, []} ->
+        render conn, "500.html"
     end
-
-    render conn, "index.html", user: user
   end
 
   def select_entries(conn, %{"user_id" => user_id}) do
@@ -26,9 +29,11 @@ defmodule FakeQiita.PageController do
     result = OAuth2.AccessToken.get!(token, "/items?per_page=1&query=user:#{user_id}")
     case result do
       %{status_code: 200, body: [item | _]} ->
-        item["user"]
+        {:ok, item["user"]}
+      %{status_code: 200, body: []} ->
+        {:not_found, []}
       _ ->
-        nil
+        {:server_error, []}
     end
   end
 

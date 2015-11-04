@@ -1,3 +1,5 @@
+<div id="dto" style="display: hidden;" data-user-id="<%= @user["id"] %>"></div>
+
 <div class="row">
   <div id="pane-left" class="col-xs-3">
     <section>
