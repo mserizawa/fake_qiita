@@ -13,7 +13,7 @@ defmodule FakeQiita do
       worker(FakeQiita.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(FakeQiita.Worker, [arg1, arg2, arg3]),
-      worker(ConCache, [[], [name: :entries_cache]])
+      worker(ConCache, [[], [name: :qiita_cache]])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

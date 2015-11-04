@@ -2,7 +2,9 @@ defmodule FakeQiita.PageController do
   use FakeQiita.Web, :controller
 
   def index(conn, %{"user_id" => user_id}) do
-    user = select_user(user_id)
+    user = ConCache.get_or_store(:qiita_cache, "#{user_id}_user", fn() ->
+      select_user(user_id)
+    end)
 
     unless user do
       json conn, %{error: "not found"}
@@ -12,8 +14,8 @@ defmodule FakeQiita.PageController do
   end
 
   def select_entries(conn, %{"user_id" => user_id}) do
-    entries = ConCache.get_or_store(:entries_cache, user_id, fn() ->
-        request_entries([], user_id, 1)
+    entries = ConCache.get_or_store(:qiita_cache, "#{user_id}_entries", fn() ->
+      request_entries([], user_id, 1)
     end)
 
     json conn, entries
