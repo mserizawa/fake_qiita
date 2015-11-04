@@ -64,6 +64,11 @@ hr {
     background-color: #fafafa;
 }
 
+#loader {
+    text-align: center;
+    padding-top: 150px;
+}
+
 .button-github {
     background-image: linear-gradient(#fcfcfc, #eee);
     background-color: #eee;

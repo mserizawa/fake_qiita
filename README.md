@@ -48,3 +48,4 @@ $ elixir --detached -S mix phoenix.server
 - [ ] Add Ajax Loading
 - [ ] Handle Exceptions
 - [ ] Improve caching TTL
+- [ ] Add other user attributes

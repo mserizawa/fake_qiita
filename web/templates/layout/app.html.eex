@@ -68,110 +68,117 @@
         </div>
 
         <div id="pane-right" class="col-xs-9">
-          <section>
-            <ul class="nav nav-tabs">
-              <li role="presentation" class="active">
-                <a href="#"><span class="glyphicon glyphicon-plus"></span> Contributions</a>
-              </li>
-              <li role="presentation">
-                <a href="http://qiita.com/mserizawa/items"><span class="glyphicon glyphicon-book"></span> Entries</a>
-              </li>
-            </ul>
-          </section>
-
-          <section id="section-popular-entries">
-            <div class="panel panel-default">
-              <div class="panel-heading"><b>Popular entries</b></div>
-              <table class="table">
-                <tbody>
-                  <tr ng-repeat="entry in popularEntries">
-                    <td width="17px"><span class="glyphicon glyphicon-book"></span></td>
-                    <td>
-                      <a href="{{ entry.url }}"><b>{{ entry.title }}</b></a><br>
-                      <a href="http://qiita.com/tags/{{ tag.name }}" class="entry-tag" ng-repeat="tag in entry.tags">
-                        <span class="label label-default">{{ tag.name }}</span>
-                      </a>
-                    </td>
-                    <td width="80px">{{ entry.stock_count }} <span class="glyphicon glyphicon-star"></span></td>
-                  </tr>
-                </tbody>
-              </table>
+          <section ng-show="isLoading">
+            <div id="loader">
+              <img src="/images/loading.gif">
             </div>
           </section>
+          <section ng-show="!isLoading">
+            <section>
+              <ul class="nav nav-tabs">
+                <li role="presentation" class="active">
+                  <a href="#"><span class="glyphicon glyphicon-plus"></span> Contributions</a>
+                </li>
+                <li role="presentation">
+                  <a href="http://qiita.com/mserizawa/items"><span class="glyphicon glyphicon-book"></span> Entries</a>
+                </li>
+              </ul>
+            </section>
 
-          <section>
-            <div class="panel panel-default">
-              <div class="panel-heading"><b>Contributions</b></div>
-              <table class="table">
-                <tbody>
-                  <tr col-span="3">
-                    <div id="cal-heatmap"></div>
-                    <div id="note-heatmap">Summary of entries and it's stock count.</div>
-                  </tr>
-                  <tr id="contrib-stats">
-                    <td ng-repeat="stat in contribStats">
-                      <small>{{ stat.title }}</small>
-                      <br>
-                      <big>{{ stat.count }} {{ stat.unit }}</big><br>
-                      <small>
-                        <span ng-if="stat.fromDate && stat.toDate">
-                          {{ stat.fromDate }} - {{ stat.toDate }}
-                        </span>
-                        <span ng-if="stat.last_contributed">
-                          Last Conributed {{ stat.last_contributed }} days ago
-                        </span>
-                      </small>                      
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section>
-            <div class="row">
-              <div class="col-xs-9">
-                <h4>Contribution activity</h4>
+            <section id="section-popular-entries">
+              <div class="panel panel-default">
+                <div class="panel-heading"><b>Popular entries</b></div>
+                <table class="table">
+                  <tbody>
+                    <tr ng-repeat="entry in popularEntries">
+                      <td width="17px"><span class="glyphicon glyphicon-book"></span></td>
+                      <td>
+                        <a href="{{ entry.url }}"><b>{{ entry.title }}</b></a><br>
+                        <a href="http://qiita.com/tags/{{ tag.name }}" class="entry-tag" ng-repeat="tag in entry.tags">
+                          <span class="label label-default">{{ tag.name }}</span>
+                        </a>
+                      </td>
+                      <td width="80px">{{ entry.stock_count }} <span class="glyphicon glyphicon-star"></span></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="col-xs-3">
-                <div class="dropdown pull-right">
-                  <button class="btn btn-default btn-sm dropdown-toggle button-github" type="button" id="dropdown-period" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Period: <b>{{ periodLabel }}</b>
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdown-period">
-                    <li ng-repeat="period in periodPresets">
-                      <a href="#" onclick="return false;" ng-click="changePeriod(period.label, period.from)">
-                        <span style="width: 16px;" class="glyphicon" ng-class="{'glyphicon-ok': periodLabel === period.label}"></span> {{ period.label }}
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            </section>
 
-            <div class="row">
-              <div class="col-xs-12">
-                <div ng-if="filteredActivities.length === 0">
-                  <div id="activity-not-found">
-                    <%= @user["id"] %> has no activity during this period.
-                  </div>
+            <section>
+              <div class="panel panel-default">
+                <div class="panel-heading"><b>Contributions</b></div>
+                <table class="table">
+                  <tbody>
+                    <tr col-span="3">
+                      <div id="cal-heatmap"></div>
+                      <div id="note-heatmap">Summary of entries and it's stock count.</div>
+                    </tr>
+                    <tr id="contrib-stats">
+                      <td ng-repeat="stat in contribStats">
+                        <small>{{ stat.title }}</small>
+                        <br>
+                        <big>{{ stat.count }} {{ stat.unit }}</big><br>
+                        <small>
+                          <span ng-if="stat.fromDate && stat.toDate">
+                            {{ stat.fromDate }} - {{ stat.toDate }}
+                          </span>
+                          <span ng-if="stat.last_contributed">
+                            Last Conributed {{ stat.last_contributed }} days ago
+                          </span>
+                        </small>                      
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section>
+              <div class="row">
+                <div class="col-xs-9">
+                  <h4>Contribution activity</h4>
                 </div>
-                <div ng-if="filteredActivities.length > 0">
-                  <h5 class="activity-header">
-                    <span>
-                      <span class="glyphicon glyphicon-pencil"></span>
-                      <b>{{ filteredActivities.length }}</b>
-                      <span ng-if="filteredActivities.length === 1" style="padding: 0;">entry</span>
-                      <span ng-if="filteredActivities.length !== 1" style="padding: 0;">entries</span>
-                    </span>
-                  </h5>
-                  <div ng-repeat="activity in filteredActivities" class="activity">
-                    <a href="{{ activity.url }}">{{ activity.title }}</a> <small>{{ activity.display_date }}</small>
+                <div class="col-xs-3">
+                  <div class="dropdown pull-right">
+                    <button class="btn btn-default btn-sm dropdown-toggle button-github" type="button" id="dropdown-period" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      Period: <b>{{ periodLabel }}</b>
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-period">
+                      <li ng-repeat="period in periodPresets">
+                        <a href="#" onclick="return false;" ng-click="changePeriod(period.label, period.from)">
+                          <span style="width: 16px;" class="glyphicon" ng-class="{'glyphicon-ok': periodLabel === period.label}"></span> {{ period.label }}
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
-            </div>
+
+              <div class="row">
+                <div class="col-xs-12">
+                  <div ng-if="filteredActivities.length === 0">
+                    <div id="activity-not-found">
+                      <%= @user["id"] %> has no activity during this period.
+                    </div>
+                  </div>
+                  <div ng-if="filteredActivities.length > 0">
+                    <h5 class="activity-header">
+                      <span>
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        <b>{{ filteredActivities.length }}</b>
+                        <span ng-if="filteredActivities.length === 1" style="padding: 0;">entry</span>
+                        <span ng-if="filteredActivities.length !== 1" style="padding: 0;">entries</span>
+                      </span>
+                    </h5>
+                    <div ng-repeat="activity in filteredActivities" class="activity">
+                      <a href="{{ activity.url }}">{{ activity.title }}</a> <small>{{ activity.display_date }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
           </section>
         </div>
       </div>

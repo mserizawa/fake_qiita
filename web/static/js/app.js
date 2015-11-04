@@ -23,6 +23,7 @@ angular.module("fakeQiitaApp", [])
             { label: "1 month", from: moment().add(-1, "months") }
         ];
         $scope.periodLabel = "";
+        $scope.isLoading = true;
 
         $scope.changePeriod = function(label, from, to) {
             if (!to) {
@@ -48,6 +49,8 @@ angular.module("fakeQiitaApp", [])
         }
 
         $http.get("/" + userId + "/entries.json").success(function(dt) {
+            $scope.isLoading = false;
+
             var calData = {},
                 now = moment(),
                 contributionsLastYear = 0,
