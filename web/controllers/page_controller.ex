@@ -12,11 +12,8 @@ defmodule FakeQiita.PageController do
   end
 
   def select_entries(conn, %{"user_id" => user_id}) do
-    token = FakeQiita.Qiita.access_token()
-    user = get_session(conn, :current_user)
-
     entries = ConCache.get_or_store(:entries_cache, user_id, fn() ->
-        request_entries([], token, 1)
+        request_entries([], user_id, 1)
     end)
 
     json conn, entries
@@ -48,13 +45,13 @@ defmodule FakeQiita.PageController do
     }
   end
 
-  defp request_entries(entries, token, page) when length(entries) < (page - 1) * 100 do
+  defp request_entries(entries, user_id, page) when length(entries) < (page - 1) * 100 do
     entries
   end
 
-  defp request_entries(entries, token, page) do
-    params = [{"page", Integer.to_string(page)}, {"per_page", "100"}]
-    result = OAuth2.AccessToken.get!(token, "/authenticated_user/items", params)
+  defp request_entries(entries, user_id, page) do
+    token = FakeQiita.Qiita.access_token()
+    result = OAuth2.AccessToken.get!(token, "/items?page=#{page}&per_page=100&query=user:#{user_id}")
     case result do
       %{status_code: 200, body: body} ->
         parsed = body |> Enum.map(&(parse_entry(&1)))
