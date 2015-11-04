@@ -55,7 +55,10 @@
       <section id="section-popular-entries">
         <div class="panel panel-default">
           <div class="panel-heading"><b>Popular entries</b></div>
-          <table class="table">
+          <div class="panel-body" ng-if="popularEntries.length === 0">
+            <%= @user["id"] %> has no entries.
+          </div>
+          <table class="table" ng-if="popularEntries.length">
             <tbody>
               <tr ng-repeat="entry in popularEntries">
                 <td width="17px"><span class="glyphicon glyphicon-book"></span></td>

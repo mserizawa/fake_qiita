@@ -46,6 +46,7 @@ $ elixir --detached -S mix phoenix.server
 - [x] Discard 'Singin with Qiita'
 - [x] Separate layout and page
 - [x] Add Ajax Loading
-- [ ] Handle Exceptions
+- [x] Handle Exceptions
 - [ ] Improve caching TTL
 - [ ] Add other user attributes
+- [ ] Deploy to somewhere
