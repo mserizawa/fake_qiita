@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fakeQiitaApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Fake Qiita</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+  </head>
+
+  <body ng-controller="FakeQiitaController as cm">
+    <nav class="navbar navbar-default github-like">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            Fake Qiita
+          </a>
+        </div>
+
+        <form class="navbar-form navbar-left" role="search" ng-submit="searchQiita()">
+          <div class="form-group">
+            <input type="text" class="form-control form-navbar" placeholder="Search Qiita" ng-model="searchWord">
+          </div>
+        </form>
+
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle dropdown-avator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-plus"></span> <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="http://qiita.com/drafts/new">New entry</a></li>
+                <li><a href="http://qiita.com/drafts">Edit drafts</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle dropdown-avator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <img src="<%= @current_user["profile_image_url"] %>" /> <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><span>Signed in as <b><%= @current_user["id"] %></b></span></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="http://qiita.com/settings/account">Settings</li>
+                <li><a href="/auth/logout">Sign out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+
+      <div class="row">
+        <div id="pane-left" class="col-xs-3">
+          <section>
+            <img src="<%= @current_user["profile_image_url"] %>" class="img-rounded" width="100%"/>
+            <h2><%= @current_user["name"] %> <small><%= @current_user["id"] %></small></h2>
+          </section>
+          <hr>
+          <section>
+            <span class="glyphicon glyphicon-map-marker"></span> <%= @current_user["location"] %>
+          </section>
+          <hr>
+          <section>
+            <div class="row">
+              <a href="http://qiita.com/mserizawa/followers">
+                <div class="col-xs-4 stat-count">
+                  <p><%= @current_user["followers_count"] %></p>
+                  <small>Followers</small>
+                </div>
+              </a>
+              <div class="col-xs-4 stat-count">
+                <p>{{ contributions }}</p>
+                <small>Contributions</small>
+              </div>
+              <a href="http://qiita.com/mserizawa/following_users">
+                <div class="col-xs-4 stat-count">
+                  <p><%= @current_user["followees_count"] %></p>
+                  <small>Following</small>
+                </div>
+              </a>
+            </div>
+          </section>
+          <hr>
+        </div>
+
+        <div id="pane-right" class="col-xs-9">
+          <section>
+            <ul class="nav nav-tabs">
+              <li role="presentation" class="active">
+                <a href="#"><span class="glyphicon glyphicon-plus"></span> Contributions</a>
+              </li>
+              <li role="presentation">
+                <a href="http://qiita.com/mserizawa/items"><span class="glyphicon glyphicon-book"></span> Entries</a>
+              </li>
+              <li class="pull-right">
+                <button class="btn btn-default btn-sm button-github" onclick="location.href = 'http://qiita.com/settings/profile';">
+                  <span class="glyphicon glyphicon-pencil"></span> <b>Edit profile</b>
+                </button>
+              </li>
+            </ul>
+          </section>
+
+          <section id="section-popular-entries">
+            <div class="panel panel-default">
+              <div class="panel-heading"><b>Popular entries</b></div>
+              <table class="table">
+                <tbody>
+                  <tr ng-repeat="entry in popularEntries">
+                    <td width="17px"><span class="glyphicon glyphicon-book"></span></td>
+                    <td>
+                      <a href="{{ entry.url }}"><b>{{ entry.title }}</b></a><br>
+                      <a href="http://qiita.com/tags/{{ tag.name }}" class="entry-tag" ng-repeat="tag in entry.tags">
+                        <span class="label label-default">{{ tag.name }}</span>
+                      </a>
+                    </td>
+                    <td width="80px">{{ entry.stock_count }} <span class="glyphicon glyphicon-star"></span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section>
+            <div class="panel panel-default">
+              <div class="panel-heading"><b>Contributions</b></div>
+              <table class="table">
+                <tbody>
+                  <tr col-span="3">
+                    <div id="cal-heatmap"></div>
+                    <div id="note-heatmap">Summary of entries and it's stock count.</div>
+                  </tr>
+                  <tr id="contrib-stats">
+                    <td ng-repeat="stat in contribStats">
+                      <small>{{ stat.title }}</small>
+                      <br>
+                      <big>{{ stat.count }} {{ stat.unit }}</big><br>
+                      <small>
+                        <span ng-if="stat.fromDate && stat.toDate">
+                          {{ stat.fromDate }} - {{ stat.toDate }}
+                        </span>
+                        <span ng-if="stat.last_contributed">
+                          Last Conributed {{ stat.last_contributed }} days ago
+                        </span>
+                      </small>                      
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section>
+            <div class="row">
+              <div class="col-xs-9">
+                <h4>Contribution activity</h4>
+              </div>
+              <div class="col-xs-3">
+                <div class="dropdown pull-right">
+                  <button class="btn btn-default btn-sm dropdown-toggle button-github" type="button" id="dropdown-period" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Period: <b>{{ periodLabel }}</b>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdown-period">
+                    <li ng-repeat="period in periodPresets">
+                      <a href="#" onclick="return false;" ng-click="changePeriod(period.label, period.from)">
+                        <span style="width: 16px;" class="glyphicon" ng-class="{'glyphicon-ok': periodLabel === period.label}"></span> {{ period.label }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div ng-if="filteredActivities.length === 0">
+                  <div id="activity-not-found">
+                    <%= @current_user["id"] %> has no activity during this period.
+                  </div>
+                </div>
+                <div ng-if="filteredActivities.length > 0">
+                  <h5 class="activity-header">
+                    <span>
+                      <span class="glyphicon glyphicon-pencil"></span>
+                      <b>{{ filteredActivities.length }}</b>
+                      <span ng-if="filteredActivities.length === 1" style="padding: 0;">entry</span>
+                      <span ng-if="filteredActivities.length !== 1" style="padding: 0;">entries</span>
+                    </span>
+                  </h5>
+                  <div ng-repeat="activity in filteredActivities" class="activity">
+                    <a href="{{ activity.url }}">{{ activity.title }}</a> <small>{{ activity.display_date }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        &copy; 2015 <a href="https://twitter.com/masato_serizawa" target="_blank">@masato_serizawa</a> - Fake Qiita is a GitHub like qiita my page. This is just a joke app.
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <script src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
