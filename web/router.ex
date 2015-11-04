@@ -17,16 +17,8 @@ defmodule FakeQiita.Router do
   scope "/", FakeQiita do
     pipe_through :browser
 
-    get "/", PageController, :index
-    get "/entries.json", PageController, :select_entries
-  end
-
-  scope "/auth", FakeQiita do
-    pipe_through :browser
-
-    get "/", PageController, :auth
-    get "/callback", PageController, :callback
-    get "/logout", PageController, :logout
+    get "/:user_id", PageController, :index
+    get "/:user_id/entries.json", PageController, :select_entries
   end
 
   defp assign_current_user(conn, _) do

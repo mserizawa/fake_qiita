@@ -13,23 +13,7 @@ defmodule FakeQiita.Qiita do
     ])
   end
 
-  def authorize_url!(params \\ []) do
-    client()
-    |> put_param(:scope, "read_qiita")
-    |> OAuth2.Client.authorize_url!(params)
-  end
-
-  def get_token!(params \\ [], headers \\ [], options \\ []) do
-    OAuth2.Client.get_token!(client(), params, List.insert_at(headers, -1, {"Content-Type", "application/json"}), options)
-  end
-
-  def authorize_url(client, params) do
-    OAuth2.Strategy.AuthCode.authorize_url(client, params)
-  end
-
-  def get_token(client, params, headers) do
-    client
-    |> put_header("Accept", "application/json")
-    |> OAuth2.Strategy.AuthCode.get_token(params, headers)
+  def access_token do
+    OAuth2.AccessToken.new(System.get_env("ACCESS_TOKEN"), client())
   end
 end

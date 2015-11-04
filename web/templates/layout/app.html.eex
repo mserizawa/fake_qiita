@@ -28,32 +28,6 @@
             <input type="text" class="form-control form-navbar" placeholder="Search Qiita" ng-model="searchWord">
           </div>
         </form>
-
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle dropdown-avator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <span class="glyphicon glyphicon-plus"></span> <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="http://qiita.com/drafts/new">New entry</a></li>
-                <li><a href="http://qiita.com/drafts">Edit drafts</a></li>
-              </ul>
-            </li>
-
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle dropdown-avator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <img src="<%= @current_user["profile_image_url"] %>" /> <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><span>Signed in as <b><%= @current_user["id"] %></b></span></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="http://qiita.com/settings/account">Settings</li>
-                <li><a href="/auth/logout">Sign out</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
       </div>
     </nav>
 
@@ -62,19 +36,19 @@
       <div class="row">
         <div id="pane-left" class="col-xs-3">
           <section>
-            <img src="<%= @current_user["profile_image_url"] %>" class="img-rounded" width="100%"/>
-            <h2><%= @current_user["name"] %> <small><%= @current_user["id"] %></small></h2>
+            <img src="<%= @user["profile_image_url"] %>" class="img-rounded" width="100%"/>
+            <h2><%= @user["name"] %> <small><%= @user["id"] %></small></h2>
           </section>
           <hr>
           <section>
-            <span class="glyphicon glyphicon-map-marker"></span> <%= @current_user["location"] %>
+            <span class="glyphicon glyphicon-map-marker"></span> <%= @user["location"] %>
           </section>
           <hr>
           <section>
             <div class="row">
               <a href="http://qiita.com/mserizawa/followers">
                 <div class="col-xs-4 stat-count">
-                  <p><%= @current_user["followers_count"] %></p>
+                  <p><%= @user["followers_count"] %></p>
                   <small>Followers</small>
                 </div>
               </a>
@@ -84,7 +58,7 @@
               </div>
               <a href="http://qiita.com/mserizawa/following_users">
                 <div class="col-xs-4 stat-count">
-                  <p><%= @current_user["followees_count"] %></p>
+                  <p><%= @user["followees_count"] %></p>
                   <small>Following</small>
                 </div>
               </a>
@@ -101,11 +75,6 @@
               </li>
               <li role="presentation">
                 <a href="http://qiita.com/mserizawa/items"><span class="glyphicon glyphicon-book"></span> Entries</a>
-              </li>
-              <li class="pull-right">
-                <button class="btn btn-default btn-sm button-github" onclick="location.href = 'http://qiita.com/settings/profile';">
-                  <span class="glyphicon glyphicon-pencil"></span> <b>Edit profile</b>
-                </button>
               </li>
             </ul>
           </section>
@@ -185,7 +154,7 @@
               <div class="col-xs-12">
                 <div ng-if="filteredActivities.length === 0">
                   <div id="activity-not-found">
-                    <%= @current_user["id"] %> has no activity during this period.
+                    <%= @user["id"] %> has no activity during this period.
                   </div>
                 </div>
                 <div ng-if="filteredActivities.length > 0">
@@ -213,6 +182,8 @@
         &copy; 2015 <a href="https://twitter.com/masato_serizawa" target="_blank">@masato_serizawa</a> - Fake Qiita is a GitHub like qiita my page. This is just a joke app.
       </div>
     </footer>
+
+    <div id="dto" style="display: hidden;" data-user-id="<%= @user["id"] %>"></div>
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>

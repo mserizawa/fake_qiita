@@ -13,7 +13,8 @@ This is *alpha version* software.
 
 ## TODO
 
-- [ ] Discard 'Singin with Qiita'
+- [x] Discard 'Singin with Qiita'
+- [ ] Separate layout and page
 - [ ] Add Ajax Loading
 - [ ] Handle Exceptions
 - [ ] Improve caching TTL

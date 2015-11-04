@@ -4,7 +4,8 @@ angular.module("fakeQiitaApp", [])
         var qiitaDateFormat = "YYYY-MM-DD'T'HH:mm:ssZ",
             streakDateFormat = "MMMM D",
             displayYMDFormat = "MMM D, YYYY",
-            entries = [];
+            entries = [],
+            userId = $("#dto").data("user-id");
 
         $scope.searchWord = "";
         $scope.popularEntries = [];
@@ -46,7 +47,7 @@ angular.module("fakeQiitaApp", [])
             location.href = "http://qiita.com/search?utf8=%E2%9C%93&sort=rel&q=" + $scope.searchWord;
         }
 
-        $http.get("/entries.json").success(function(dt) {
+        $http.get("/" + userId + "/entries.json").success(function(dt) {
             var calData = {},
                 now = moment(),
                 contributionsLastYear = 0,
