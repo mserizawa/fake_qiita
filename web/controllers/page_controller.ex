@@ -25,7 +25,7 @@ defmodule FakeQiita.PageController do
   end
 
   defp request_entries(entries, token, page) do
-    params = %{"page" => Integer.to_string(page), "per_page" => "100"}
+    params = [{"page", Integer.to_string(page)}, {"per_page", "100"}]
     result = OAuth2.AccessToken.get!(token, "/authenticated_user/items", params)
     case result do
       %{status_code: 200, body: body} ->

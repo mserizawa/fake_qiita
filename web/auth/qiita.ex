@@ -1,11 +1,11 @@
 defmodule FakeQiita.Qiita do
   use OAuth2.Strategy
 
-  def new do
-    OAuth2.new([
+  def client do
+    OAuth2.Client.new([
       strategy: __MODULE__,
-      client_id: "",
-      client_secret: "",
+      client_id: System.get_env("CLIENT_ID"),
+      client_secret: System.get_env("CLIENT_SECRET"),
       redirect_uri: "http://localhost:4000/auth/callback",
       site: "http://qiita.com/api/v2",
       authorize_url: "http://qiita.com/api/v2/oauth/authorize",
@@ -14,13 +14,13 @@ defmodule FakeQiita.Qiita do
   end
 
   def authorize_url!(params \\ []) do
-    new()
+    client()
     |> put_param(:scope, "read_qiita")
     |> OAuth2.Client.authorize_url!(params)
   end
 
   def get_token!(params \\ [], headers \\ [], options \\ []) do
-    OAuth2.Client.get_token!(new(), params, List.insert_at(headers, -1, {"Content-Type", "application/json"}), options)
+    OAuth2.Client.get_token!(client(), params, List.insert_at(headers, -1, {"Content-Type", "application/json"}), options)
   end
 
   def authorize_url(client, params) do

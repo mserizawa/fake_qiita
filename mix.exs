@@ -39,7 +39,6 @@ defmodule FakeQiita.Mixfile do
      {:oauth2, "~> 0.3"},
      {:con_cache, "~> 0.8.1"},
      {:floki, "~> 0.6.1"}]
-
   end
 
   # Aliases are shortcut or tasks specific to the current project.
