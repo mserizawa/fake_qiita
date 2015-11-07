@@ -200,7 +200,7 @@ a > .stat-count:hover small {
 footer .container {
     border-top: 1px solid #eee;
     text-align: center;
-    padding: 40px 0;
+    padding: 30px 0;
 }
 
 .nav.nav-tabs > li:nth-child(n+2) > a {

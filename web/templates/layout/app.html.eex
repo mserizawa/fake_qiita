@@ -39,7 +39,15 @@
 
     <footer>
       <div class="container">
-        &copy; 2015 <a href="https://twitter.com/masato_serizawa" target="_blank">@masato_serizawa</a> - Fake Qiita is a GitHub like qiita my page. This is just a joke app.
+        <p>
+          &copy; 2015 <a href="https://twitter.com/masato_serizawa" target="_blank">@masato_serizawa</a><br>
+          <small>Fake Qiita is a GitHub like qiita my page. This is just a joke app.</small>
+        </p>
+        <p>
+        </p>
+        <p>
+          <a href="https://github.com/" target="_blank">GitHub</a> / <a href="http://qiita.com/" target="_blank">Qiita</a>
+        </p>
       </div>
     </footer>
 
