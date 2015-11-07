@@ -1,14 +1,18 @@
 defmodule FakeQiita.PageController do
   use FakeQiita.Web, :controller
 
-  def index(conn, %{"user_id" => user_id}) do
+  def index(conn, _params) do
+    render conn, "index.html"
+  end
+
+  def select_user(conn, %{"user_id" => user_id}) do
     user = ConCache.get_or_store(:qiita_cache, "#{user_id}_user", fn() ->
-      select_user(user_id)
+      request_user(user_id)
     end)
 
     case user do
       {:ok, value} ->
-        render conn, "index.html", user: value
+        render conn, "user.html", user: value
       {:not_found, []} ->
         render conn, "404.html"
       {:server_error, []} ->
@@ -24,7 +28,7 @@ defmodule FakeQiita.PageController do
     json conn, entries
   end
 
-  defp select_user(user_id) do
+  defp request_user(user_id) do
     token = FakeQiita.Qiita.access_token()
     result = OAuth2.AccessToken.get!(token, "/items?per_page=1&query=user:#{user_id}")
     case result do

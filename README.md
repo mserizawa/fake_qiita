@@ -50,5 +50,5 @@ $ elixir --detached -S mix phoenix.server
 - [x] Improve caching TTL
 - [x] Add other user attributes
 - [x] Improve entiries.json response speed (do parallelly)
-- [ ] Add page to route "/"
+- [x] Add page to route "/"
 - [ ] Deploy to somewhere

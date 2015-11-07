@@ -17,7 +17,8 @@ defmodule FakeQiita.Router do
   scope "/", FakeQiita do
     pipe_through :browser
 
-    get "/:user_id", PageController, :index
+    get "/", PageController, :index
+    get "/:user_id", PageController, :select_user
     get "/:user_id/entries.json", PageController, :select_entries
   end
 
