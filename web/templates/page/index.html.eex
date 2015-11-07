@@ -29,7 +29,7 @@
     <% end %>
     <section>
       <div class="row">
-        <a href="http://qiita.com/mserizawa/followers">
+        <a href="http://qiita.com/<%= @user["id"] %>/followers">
           <div class="col-xs-4 stat-count">
             <p><%= @user["followers_count"] %></p>
             <small>Followers</small>
@@ -39,7 +39,7 @@
           <p>{{ contributions }}</p>
           <small>Contributions</small>
         </div>
-        <a href="http://qiita.com/mserizawa/following_users">
+        <a href="http://qiita.com/<%= @user["id"] %>/following_users">
           <div class="col-xs-4 stat-count">
             <p><%= @user["followees_count"] %></p>
             <small>Following</small>
@@ -63,7 +63,7 @@
             <a href="#"><span class="glyphicon glyphicon-plus"></span> Contributions</a>
           </li>
           <li role="presentation">
-            <a href="http://qiita.com/mserizawa/items"><span class="glyphicon glyphicon-book"></span> Entries</a>
+            <a href="http://qiita.com/<%= @user["id"] %>/items"><span class="glyphicon glyphicon-book"></span> Entries</a>
           </li>
         </ul>
       </section>
