@@ -61,7 +61,9 @@ defmodule FakeQiita.PageController do
     result = OAuth2.AccessToken.get!(token, "/items?page=#{page}&per_page=100&query=user:#{user_id}")
     case result do
       %{status_code: 200, body: body} ->
-        parsed = body |> Enum.map(&(parse_entry(&1)))
+        parsed = body
+        |> Enum.map(&Task.async(fn -> parse_entry(&1) end))
+        |> Enum.map(&Task.await(&1, 5_000))
         request_entries(entries ++ parsed, token, page + 1)
       _ ->
         nil
