@@ -56,7 +56,7 @@ defmodule FakeQiita.PageController do
     }
   end
 
-  defp request_entries(entries, user_id, page) when length(entries) < (page - 1) * 100 do
+  defp request_entries(entries, _user_id, page) when length(entries) < (page - 1) * 100 do
     entries
   end
 
