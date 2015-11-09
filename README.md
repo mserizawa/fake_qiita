@@ -2,7 +2,8 @@
 
 * Github like qiita my page.
 * This is just a joke app.
-* This is *alpha version* software.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ## How to start
 
@@ -35,6 +36,10 @@ $ mix deps.get
 $ elixir --detached -S mix phoenix.server
 ```
 
+### Heroku
+
+Use Deploy to Heroku button and enjoy.
+
 ## Recommended browser
 
 * Chrome: latest
@@ -51,4 +56,5 @@ $ elixir --detached -S mix phoenix.server
 - [x] Add other user attributes
 - [x] Improve entiries.json response speed (do parallelly)
 - [x] Add page to route "/"
-- [ ] Deploy to somewhere
+- [x] Deploy to somewhere
+- [ ] Add capture to README

@@ -1,0 +1,28 @@
+{
+  "name": "Fake Qiita",
+  "description": "Fake Qiita is a GitHub like qiita my page. This is just a joke app.",
+  "repository": "https://github.com/mserizawa/fake_qiita",
+  "success_url": "/",
+  "env": {
+    "CLIENT_ID": {
+      "description": "A client key for your Qiita app.",
+      "generator": "secret"
+    },
+    "CLIENT_SECRET": {
+      "description": "A client secret for your Qiita app.",
+      "generator": "secret"
+    },
+    "ACCESS_TOKEN": {
+      "description": "Access token for your Qiita app.",
+      "generator": "secret"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/HashNuke/heroku-buildpack-elixir.git"
+    },
+    {
+      "url": "https://github.com/gjaldon/heroku-buildpack-phoenix-static.git"
+    }
+  ]
+}
