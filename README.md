@@ -5,6 +5,10 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
+## Capture
+
+![aa](https://raw.githubusercontent.com/wiki/mserizawa/fake_qiita/images/capture.png)
+
 ## How to start
 
 ### Your local
@@ -57,4 +61,4 @@ Use Deploy to Heroku button and enjoy.
 - [x] Improve entiries.json response speed (do parallelly)
 - [x] Add page to route "/"
 - [x] Deploy to somewhere
-- [ ] Add capture to README
+- [x] Add capture to README
