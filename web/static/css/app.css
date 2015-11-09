@@ -101,6 +101,9 @@ hr {
     min-height: 48px;
     color: #333;
 }
+.github-like a {
+    font-weight: bold;
+}
 
 .container {
     width: 1023px;
