@@ -68,7 +68,7 @@ defmodule FakeQiita.PageController do
         parsed = body
         |> Enum.map(&Task.async(fn -> parse_entry(&1) end))
         |> Enum.map(&Task.await(&1, 5_000))
-        request_entries(entries ++ parsed, token, page + 1)
+        request_entries(entries ++ parsed, user_id, page + 1)
       _ ->
         nil
     end
