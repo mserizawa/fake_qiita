@@ -7,7 +7,6 @@ defmodule FakeQiita.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :assign_current_user
   end
 
   pipeline :api do
@@ -20,9 +19,5 @@ defmodule FakeQiita.Router do
     get "/", PageController, :index
     get "/:user_id", PageController, :select_user
     get "/:user_id/entries.json", PageController, :select_entries
-  end
-
-  defp assign_current_user(conn, _) do
-    assign(conn, :current_user, get_session(conn, :current_user))
   end
 end
