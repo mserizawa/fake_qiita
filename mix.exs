@@ -37,7 +37,7 @@ defmodule FakeQiita.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
      {:oauth2, "~> 0.3"},
-     {:con_cache, "~> 0.8.1"},
+     {:con_cache, "~> 0.9.0"},
      {:floki, "~> 0.6.1"}]
   end
 
