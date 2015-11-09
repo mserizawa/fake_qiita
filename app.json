@@ -5,16 +5,13 @@
   "success_url": "/",
   "env": {
     "CLIENT_ID": {
-      "description": "A client key for your Qiita app.",
-      "generator": "secret"
+      "description": "A client key for your Qiita app."
     },
     "CLIENT_SECRET": {
-      "description": "A client secret for your Qiita app.",
-      "generator": "secret"
+      "description": "A client secret for your Qiita app."
     },
     "ACCESS_TOKEN": {
-      "description": "Access token for your Qiita app.",
-      "generator": "secret"
+      "description": "Access token for your Qiita app."
     }
   },
   "buildpacks": [
