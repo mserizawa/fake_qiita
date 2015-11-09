@@ -62,3 +62,5 @@ Use Deploy to Heroku button and enjoy.
 - [x] Add page to route "/"
 - [x] Deploy to somewhere
 - [x] Add capture to README
+- [ ] Substitute vender.js for JS CDN
+- [ ] Remove needless files
