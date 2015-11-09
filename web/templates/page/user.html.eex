@@ -7,19 +7,21 @@
       <h2><%= @user["name"] %> <small><%= @user["id"] %></small></h2>
     </section>
     <hr>
-    <%= if @user["location"] != "" || @user["organization"] != "" || @user["website_url"] != "" do %>
+    <%= if @user["location"] && @user["location"] != "" ||
+           @user["organization"] && @user["organization"] != "" ||
+           @user["website_url"] && @user["website_url"] != "" do %>
       <section id="user-attributes">
-        <%= if @user["location"] != "" do %>
+        <%= if @user["location"] && @user["location"] != "" do %>
           <div>
             <span class="glyphicon glyphicon-map-marker"></span> <%= @user["location"] %>
           </div>
         <% end %>
-        <%= if @user["organization"] != "" do %>
+        <%= if @user["organization"] && @user["organization"] != "" do %>
           <div>
             <span class="glyphicon glyphicon-home"></span> <%= @user["organization"] %>
           </div>
         <% end %>
-        <%= if @user["website_url"] != "" do %>
+        <%= if @user["website_url"] && @user["website_url"] != "" do %>
           <div>
             <span class="glyphicon glyphicon-globe"></span> <a href="<%= @user["website_url"] %>"><%= @user["website_url"] %></a>
           </div>
